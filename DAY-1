@@ -1,0 +1,50 @@
+#1 
+Level : Easy
+Given a natural number n. You have to find the number of digits in it and return it.
+CODE:
+class Solution:
+    def countDigits(self, n):
+    #  code here 
+        total=0
+        while n:
+            n=n//10
+            total+=1
+        return total
+
+#2
+Level : Medium
+Given an array, arr[]. Sort the array using bubble sort algorithm.
+CODE:
+class Solution:
+    def bubbleSort(self,arr):
+        # code here
+        for i in range(len(arr)):
+            swapped=False
+            for j in range(0,len(arr)-i-1):
+                if arr[j]>arr[j+1]:
+                    arr[j],arr[j+1]=arr[j+1],arr[j]
+                    swapped=True
+            if swapped==False:
+                break
+
+#3
+Level : Hard
+No-Zero integer is a positive integer that does not contain any 0 in its decimal representation.
+Given an integer n, return a list of two integers [a, b] where:
+a and b are No-Zero integers.
+a + b = n
+CODE:
+class Solution(object):
+    def getNoZeroIntegers(self, n):
+        """
+        :type n: int
+        :rtype: List[int]
+        """
+        def check(x):
+            return '0' not in str(x)
+        for i in range(n):
+            j=n-i
+            if check(i) and check(j):
+                return [i,j]
+
+        
