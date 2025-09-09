@@ -1,0 +1,69 @@
+DAY-2
+#1
+Given a signed 32-bit integer x, return x with its digits reversed. If reversing x causes the value to go outside the signed 32-bit integer range [-231, 231 - 1], then return 0.
+Assume the environment does not allow you to store 64-bit integers (signed or unsigned).
+
+CODE:
+class Solution(object):
+    def reverse(self, x):
+        """
+        :type x: int
+        :rtype: int
+        """
+        MAX_INT = 2**31 - 1
+        MIN_INT = -2**31
+        sign = 1
+        if x < 0:
+            sign = -1
+            x = -x  
+        reversed_x = 0
+        while x > 0:
+            digit = x % 10
+            if reversed_x > MAX_INT // 10 or (reversed_x == MAX_INT // 10 and digit > 7):
+                return 0            
+            reversed_x = reversed_x * 10 + digit
+            x //= 10
+        return reversed_x * sign
+
+#2
+Given an array arr, use selection sort to sort arr[] in increasing order.
+
+CODE:
+class Solution: 
+    def selectionSort(self, arr):
+        #code here
+        for i in range(len(arr)-1):
+            min_idx=i
+            for j in range(i+1,len(arr)):
+                if arr[j]<arr[min_idx]:
+                    min_idx=j
+            arr[i],arr[min_idx]=arr[min_idx],arr[i]
+
+
+#3
+On day 1, one person discovers a secret.
+You are given an integer delay, which means that each person will share the secret with a new person every day, starting from delay days after discovering the secret. You are also given an integer forget, which means that each person will forget the secret forget days after discovering it. A person cannot share the secret on the same day they forgot it, or on any day afterwards.
+Given an integer n, return the number of people who know the secret at the end of day n. Since the answer may be very large, return it modulo 109 + 7.
+
+CODE:
+class Solution(object):
+    def peopleAwareOfSecret(self, n, delay, forget):
+        """
+        :type n: int
+        :type delay: int
+        :type forget: int
+        :rtype: int
+        """
+        MOD = 10**9 + 7
+        dp = [0] * (n + 1)
+        dp[1] = 1
+        num_sharers_today = 0
+        total_known = 1
+        for i in range(2, n + 1):
+            new_sharers_on_day_i = dp[i - delay] if i - delay > 0 else 0
+            people_who_forget_today = dp[i - forget] if i - forget > 0 else 0
+            num_sharers_today = (num_sharers_today + new_sharers_on_day_i - people_who_forget_today + MOD) % MOD
+            dp[i] = num_sharers_today
+            total_known = (total_known + dp[i] - people_who_forget_today + MOD) % MOD
+        return total_known
+ 
