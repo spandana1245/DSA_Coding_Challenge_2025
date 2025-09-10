@@ -1,0 +1,80 @@
+#1
+Given an integer x, return true if x is a palindrome, and false otherwise.
+CODE:
+class Solution(object):
+    def isPalindrome(self, x):
+        """
+        :type x: int
+        :rtype: bool
+        """
+        if x<0:
+            return False
+        res=0
+        temp=x
+        while temp!=0:
+            rem=temp%10
+            res=res*10+rem
+            temp=temp//10
+        return res==x
+
+
+#2
+Given an array arr[] of positive integers.The task is to complete the insertsort() function which is used to implement Insertion Sort.
+CODE:
+class Solution:
+    def insertionSort(self, arr):
+        # code here
+        for i in range(1,len(arr)):
+            key=arr[i]
+            j=i-1
+            while j>=0 and key<arr[j]:
+                arr[j+1]=arr[j]
+                j-=1
+                arr[j+1]=key
+
+
+#3
+On a social network consisting of m users and some friendships between users, two users can communicate with each other if they know a common language.
+
+You are given an integer n, an array languages, and an array friendships where:
+
+There are n languages numbered 1 through n,
+languages[i] is the set of languages the i​​​​​​th​​​​ user knows, and
+friendships[i] = [u​​​​​​i​​​, v​​​​​​i] denotes a friendship between the users u​​​​​​​​​​​i​​​​​ and vi.
+You can choose one language and teach it to some users so that all friends can communicate with each other. Return the minimum number of users you need to teach.
+
+Note that friendships are not transitive, meaning if x is a friend of y and y is a friend of z, this doesn't guarantee that x is a friend of z.
+
+
+CODE:
+class Solution(object):
+    def minimumTeachings(self, n, languages, friendships):
+        """
+        :type n: int
+        :type languages: List[List[int]]
+        :type friendships: List[List[int]]
+        :rtype: int
+        """
+        known = defaultdict(set)
+        for i in range(len(languages)):
+            for j in languages[i]:
+                known[i+1].add(j)
+
+        need_to_teach = set()
+        for i in friendships:
+            if not len(known[i[0]] & known[i[1]]): 
+                need_to_teach.add(i[0])
+                need_to_teach.add(i[-1])
+
+        if not need_to_teach: return 0
+
+        ans = len(friendships) 
+
+        for i in range(1,n+1):
+            count = 0
+            for j in need_to_teach:
+                if i not in known[j]:
+                    count+=1
+            ans = min(count,ans) 
+        return ans
+        
