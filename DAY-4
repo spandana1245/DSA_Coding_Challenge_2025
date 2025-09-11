@@ -1,0 +1,76 @@
+#1
+Given two positive integers a and b, find GCD of a and b.
+CODE:
+class Solution:
+    def gcd(self, a, b):
+        # code here
+        return a if b == 0 else self.gcd(b, a % b)
+
+#2
+Given an array arr[], its starting position l and its ending position r. Sort the array using the merge sort algorithm.
+CODE:
+class Solution:
+    def merge(self, arr, l, m, r):
+        n1 = m - l + 1
+        n2 = r - m
+        L = [0] * n1
+        R = [0] * n2
+        for i in range(n1):
+            L[i] = arr[l + i]
+        for j in range(n2):
+            R[j] = arr[m + 1 + j]
+        i = 0
+        j = 0
+        k = l
+        while i < n1 and j < n2:
+            if L[i] <= R[j]:
+                arr[k] = L[i]
+                i += 1
+            else:
+                arr[k] = R[j]
+                j += 1
+            k += 1
+        while i < n1:
+            arr[k] = L[i]
+            i += 1
+            k += 1
+        while j < n2:
+            arr[k] = R[j]
+            j += 1
+            k += 1
+
+    def mergeSort(self, arr, l, r):
+        if l < r:
+            m = l + (r - l) // 2
+            self.mergeSort(arr, l, m)
+            self.mergeSort(arr, m + 1, r)
+            self.merge(arr, l, m, r)
+
+#3
+Given a 0-indexed string s, permute s to get a new string t such that:
+
+All consonants remain in their original places. More formally, if there is an index i with 0 <= i < s.length such that s[i] is a consonant, then t[i] = s[i].
+The vowels must be sorted in the nondecreasing order of their ASCII values. More formally, for pairs of indices i, j with 0 <= i < j < s.length such that s[i] and s[j] are vowels, then t[i] must not have a higher ASCII value than t[j].
+Return the resulting string.
+
+The vowels are 'a', 'e', 'i', 'o', and 'u', and they can appear in lowercase or uppercase. Consonants comprise all letters that are not vowels.
+
+CODE:
+class Solution(object):
+    def sortVowels(self, s):
+        """
+        :type s: str
+        :rtype: str
+        """
+        vowels_set = set("AEIOUaeiou")
+        vowels = [c for c in s if c in vowels_set]
+        vowels.sort()
+
+        result = []
+        it = iter(vowels)
+
+        for c in s:
+            result.append(next(it) if c in vowels_set else c)
+
+        return ''.join(result)
+
